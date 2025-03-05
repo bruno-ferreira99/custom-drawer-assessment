@@ -1430,6 +1430,20 @@
       },
       {
         "type": "checkbox",
+        "id": "show_testimonials",
+        "label": "t:settings_schema.cart.settings.cart_drawer.show_testimonials.label",
+        "default": false,
+        "info": "t:settings_schema.cart.settings.cart_drawer.show_testimonials.info"
+      },
+      {
+        "type": "metaobject",
+        "id": "testimonials_metaobject",
+        "label": "t:settings_schema.cart.settings.cart_drawer.testimonials_metaobject.label",
+        "info": "t:settings_schema.cart.settings.cart_drawer.testimonials_metaobject.info",
+        "metaobject_type": "testimonials"
+      },
+      {
+        "type": "checkbox",
         "id": "show_cart_note",
         "label": "t:settings_schema.cart.settings.show_cart_note.label",
         "default": false

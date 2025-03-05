@@ -119,6 +119,7 @@
       "sku": "SKU",
       "on_sale": "Sale",
       "product_variants": "Product variants",
+      "add_to_cart_with_title": "Add to cart {{ title }}",
       "media": {
         "gallery_viewer": "Gallery Viewer",
         "load_image": "Load image {{ index }} in gallery view",
@@ -284,11 +285,13 @@
     "cart": {
       "title": "Your cart",
       "caption": "Cart items",
+      "recommendations_heading": "Frequently bought together",
       "remove_title": "Remove {{ title }}",
       "estimated_total": "Estimated total",
+      "sub_total": "Subtotal",
       "new_estimated_total": "New estimated total",
       "note": "Order special instructions",
-      "checkout": "Check out",
+      "checkout": "Checkout",
       "empty": "Your cart is empty",
       "cart_error": "There was an error while updating your cart. Please try again.",
       "cart_quantity_error_html": "You can only add {{ quantity }} of this item to your cart.",
@@ -311,7 +314,14 @@
       "login": {
         "title": "Have an account?",
         "paragraph_html": "<a href=\"{{ link }}\" class=\"link underlined-link\">Log in</a> to check out faster."
-      }
+      },
+      "cart_items": "Cart Items",
+      "customer_testimonials": "Customer Testimonials",
+      "testimonials_carousel": "Customer testimonial carousel",
+      "testimonial_slide": "Testimonial slide {{ number }} of {{ total }}",
+      "profile_photo": "Profile photo of {{ author }}",
+      "rating": "Rating: {{ rating }} out of {{ max }} stars",
+      "recommendations_list": "Product recommendations list"
     },
     "footer": {
       "payment": "Payment methods"
