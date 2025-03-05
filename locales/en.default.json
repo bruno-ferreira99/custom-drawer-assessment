@@ -284,6 +284,7 @@
     "cart": {
       "title": "Your cart",
       "caption": "Cart items",
+      "recommendations_heading": "Frequently bought together",
       "remove_title": "Remove {{ title }}",
       "estimated_total": "Estimated total",
       "sub_total": "Subtotal",
