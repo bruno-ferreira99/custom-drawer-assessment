@@ -418,7 +418,7 @@ cart-drawer-items::-webkit-scrollbar-track-piece {
 .cart-recommendations-container {
   height: 100vh;
   width: 500px;
-  background: #eee;
+  background: #fafafa;
   transform: translateX(100%);
   transition: transform var(--duration-default) ease;
   display: flex;
