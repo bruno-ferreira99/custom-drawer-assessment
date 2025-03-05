@@ -286,9 +286,10 @@
       "caption": "Cart items",
       "remove_title": "Remove {{ title }}",
       "estimated_total": "Estimated total",
+      "sub_total": "Subtotal",
       "new_estimated_total": "New estimated total",
       "note": "Order special instructions",
-      "checkout": "Check out",
+      "checkout": "Checkout",
       "empty": "Your cart is empty",
       "cart_error": "There was an error while updating your cart. Please try again.",
       "cart_quantity_error_html": "You can only add {{ quantity }} of this item to your cart.",
@@ -524,6 +525,20 @@
       "max_characters": "{{ max_chars }} characters max",
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
+    }
+  },
+  "settings_schema": {
+    "cart": {
+      "settings": {
+        "show_testimonials": {
+          "label": "Show testimonials",
+          "info": "Display customer testimonials in cart"
+        },
+        "testimonials_metaobject": {
+          "label": "Testimonials",
+          "info": "Select testimonials to display"
+        }
+      }
     }
   }
 }

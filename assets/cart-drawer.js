@@ -134,3 +134,14 @@ class CartDrawerItems extends CartItems {
 }
 
 customElements.define('cart-drawer-items', CartDrawerItems);
+
+
+new Swiper('.cart-testimonial-swiper', {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    loop: true,
+    effect: 'fade',
+    fadeEffect: {
+      crossFade: true
+    }
+  });
