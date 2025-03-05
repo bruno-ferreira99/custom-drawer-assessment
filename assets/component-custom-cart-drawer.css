@@ -530,8 +530,6 @@ cart-drawer-items::-webkit-scrollbar-track-piece {
     min-width: 300px;
     padding: 1.5rem;
     background: #FFFFFF;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 
   .cart-recommendations__image {
