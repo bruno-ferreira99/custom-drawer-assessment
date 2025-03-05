@@ -335,6 +335,14 @@
           "collection": {
             "label": "Collection",
             "info": "Shown when cart drawer is empty"
+          },
+          "show_testimonials": {
+            "label": "Show testimonials",
+            "info": "Display customer testimonials in cart"
+          },
+          "testimonials_metaobject": {
+            "label": "Testimonials",
+            "info": "Select testimonials to display"
           }
         }
       }

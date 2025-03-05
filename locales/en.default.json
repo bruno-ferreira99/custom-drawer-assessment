@@ -526,19 +526,5 @@
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
     }
-  },
-  "settings_schema": {
-    "cart": {
-      "settings": {
-        "show_testimonials": {
-          "label": "Show testimonials",
-          "info": "Display customer testimonials in cart"
-        },
-        "testimonials_metaobject": {
-          "label": "Testimonials",
-          "info": "Select testimonials to display"
-        }
-      }
-    }
   }
 }
