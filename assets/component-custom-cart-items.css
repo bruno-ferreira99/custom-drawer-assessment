@@ -111,9 +111,15 @@ cart-items .title-wrapper-with-link {
 }
 
 .product-option {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   word-break: break-word;
   line-height: calc(1 + 0.5 / var(--font-body-scale));
+}
+
+@media screen and (min-width: 750px) {
+  .product-option {
+    font-size: 1.6rem;
+  }
 }
 
 .cart-item cart-remove-button {

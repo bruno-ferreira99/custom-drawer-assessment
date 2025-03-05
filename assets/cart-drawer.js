@@ -140,8 +140,13 @@ new Swiper('.cart-testimonial-swiper', {
     slidesPerView: 1,
     spaceBetween: 20,
     loop: true,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true
+    },
     effect: 'fade',
     fadeEffect: {
       crossFade: true
     }
-  });
+});
