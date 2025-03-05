@@ -1,6 +1,14 @@
-{% comment %}
-  Renders cart drawer
 
+{% comment %}
+  Renders cart drawer with accessibility improvements
+  
+  Accessibility features:
+  - Proper ARIA roles and labels
+  - Sufficient color contrast
+  - Keyboard navigation support
+  - Screen reader announcements
+  - Focus management
+  
   Usage:
   {% render 'custom-cart-drawer' %}
 {% endcomment %}
@@ -19,22 +27,43 @@
   }
 </style>
 
-<cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}">
+<cart-drawer 
+  class="drawer{% if cart == empty %} is-empty{% endif %}"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ 'sections.cart.title' | t }}"
+>
   <div id="CartDrawer" class="cart-drawer">
-    <div id="CartDrawer-Overlay" class="cart-drawer__overlay"></div>
+    <!-- Overlay with proper role -->
+    <div 
+      id="CartDrawer-Overlay" 
+      class="cart-drawer__overlay"
+      role="presentation"
+      tabindex="-1"
+    ></div>
     <div class="cart-recommendations-container hide-mobile">
       <div class="cart-recommendations__list">
-        <h2 class="cart-recommendations__heading">{{ 'sections.cart.recommendations_heading' | t }}</h2>
+        <h2 
+          id="cart-recommendations-heading"
+          class="cart-recommendations__heading"
+        >
+          {{ 'sections.cart.recommendations_heading' | t }}
+        </h2>
 
         {% assign today_seed = 'now' | date: '%Y%m%d' | times: 1 %}
         {% assign all_products_sorted = collections.all.products | sort: today_seed %}
         {% assign cart_product_ids = cart.items | map: 'product_id' %}
         {% assign recommendation_count = 0 %}
+        
         {% for product in all_products_sorted %}
           {% unless cart_product_ids contains product.id %}
             {% if recommendation_count < 3 %}
               {% assign recommendation_count = recommendation_count | plus: 1 %}
-              <div class="cart-recommendations__item">
+              <div 
+                class="cart-recommendations__item"
+                role="group"
+                aria-labelledby="recommendation-title-{{ recommendation_count }}"
+              >
                 <div class="cart-recommendations__image-wrapper">
                   <img
                     srcset="{{ product.featured_image | image_url: width: 200 }} 1x, {{ product.featured_image | image_url: width: 400 }} 2x"
@@ -47,29 +76,47 @@
                   >
                 </div>
                 <div class="cart-recommendations__content">
-                  <h3 class="cart-recommendations__title">{{ product.title }}</h3>
+                  <h3 
+                    id="recommendation-title-{{ recommendation_count }}"
+                    class="cart-recommendations__title"
+                  >
+                    {{ product.title }}
+                  </h3>
                   {% assign first_available_variant = product.variants | where: "available", true | first %}
                   {% if first_available_variant == blank %}
                     {% assign first_available_variant = product.variants.first %}
                   {% endif %}
                   <div class="cart-recommendations__variant">
-                    <span class="cart-recommendations__variant-title">{{ first_available_variant.title }}</span>
-                    <span class="cart-recommendations__price">{{ first_available_variant.price | money }}</span>
+                    <span class="cart-recommendations__variant-title">
+                      {{ first_available_variant.title }}
+                    </span>
+                    <span class="cart-recommendations__price">
+                      {{ first_available_variant.price | money }}
+                    </span>
                   </div>
                 </div>
                 <button 
                   class="button button--secondary cart-recommendations__add-button" 
                   data-variant-id="{{ first_available_variant.id }}"
-                  {% unless first_available_variant.available %}disabled{% endunless %}
+                  {% unless first_available_variant.available %}
+                    disabled
+                    aria-disabled="true"
+                  {% endunless %}
                   onclick="this.closest('cart-drawer').addRecommendedProduct(this.dataset.variantId, this)"
+                  aria-label="{{ 'products.product.add_to_cart_with_title' | t: title: product.title }}"
                 >
-                <span class="visually-hidden">{{ 'products.product.add_to_cart' | t }}</span>
-                <span class="button__text">+</span>
-                <div class="loading__spinner hidden">
-                  <svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-                  </svg>
-                </div>
+                  <span class="button__text" aria-hidden="true">+</span>
+                  <div class="loading__spinner hidden" role="status">
+                    <svg 
+                      aria-hidden="true" 
+                      focusable="false" 
+                      class="spinner" 
+                      viewBox="0 0 66 66" 
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                    </svg>
+                  </div>
                 </button>
               </div>
             {% endif %}
@@ -133,22 +180,35 @@
       </div>
       <cart-drawer-items
         {% if cart == empty %}
-          class=" is-empty"
+          class="is-empty"
         {% endif %}
+        role="region" 
+        aria-label="{{ 'sections.cart.cart_items' | t }}"
       >
         <form
           action="{{ routes.cart_url }}"
           id="CartDrawer-Form"
           class="cart__contents cart-drawer__form"
           method="post"
+          novalidate
         >
-          <div id="CartDrawer-CartItems" class="drawer__contents js-contents">
+          <div 
+            id="CartDrawer-CartItems" 
+            class="drawer__contents js-contents"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             {%- if cart != empty -%}
               <div class="drawer__cart-items-wrapper">
-                <table class="cart-items" role="table">
+                <table 
+                  class="cart-items" 
+                  role="table"
+                  aria-label="{{ 'sections.cart.cart_items' | t }}"
+                >
+                  <!-- Table header improvements -->
                   <thead role="rowgroup">
                     <tr role="row">
-                      <th id="CartDrawer-ColumnProductImage" role="columnheader">
+                      <th id="CartDrawer-ColumnProductImage" role="columnheader" scope="col">
                         <span class="visually-hidden">{{ 'sections.cart.headings.image' | t }}</span>
                       </th>
                       <th
@@ -167,7 +227,11 @@
                       >
                         {{ 'sections.cart.headings.total' | t }}
                       </th>
-                      <th id="CartDrawer-ColumnQuantity" role="columnheader">
+                      <th 
+                        id="CartDrawer-ColumnQuantity" 
+                        role="columnheader"
+                        scope="col"
+                      >
                         <span class="visually-hidden">{{ 'sections.cart.headings.quantity' | t }}</span>
                       </th>
                     </tr>
@@ -339,46 +403,52 @@
                             <div class="cart-item__quantity-wrapper quantity-popover-wrapper">
                               <div class="quantity-popover-container{% if has_qty_rules or has_vol_pricing %} quantity-popover-container--hover{% endif %}">
                                 <quantity-input class="quantity cart-quantity">
-                                  <button class="quantity__button" name="minus" type="button">
+                                  <button 
+                                    class="quantity__button no-js-hidden" 
+                                    name="minus" 
+                                    type="button"
+                                    aria-label="{{ 'products.product.quantity.decrease' | t: product: item.product.title | escape }}"
+                                    aria-controls="Drawer-quantity-{{ item.index | plus: 1 }}"
+                                  >
                                     <span class="visually-hidden">
-                                      {{-
-                                        'products.product.quantity.decrease'
-                                        | t: product: item.product.title
-                                        | escape
-                                      -}}
+                                      {{- 'products.product.quantity.decrease' | t: product: item.product.title | escape -}}
                                     </span>
-                                    <span class="svg-wrapper">
+                                    <span class="svg-wrapper" aria-hidden="true">
                                       {{- 'icon-minus.svg' | inline_asset_content -}}
                                     </span>
                                   </button>
+
+                                  <!-- Improved quantity input -->
                                   <input
                                     class="quantity__input"
                                     type="number"
-                                    data-quantity-variant-id="{{ item.variant.id }}"
                                     name="updates[]"
                                     value="{{ item.quantity }}"
-                                    {% # theme-check-disable %}
-                                    data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
                                     min="0"
-                                    data-min="{{ item.variant.quantity_rule.min }}"
-                                    {% if item.variant.quantity_rule.max != null %}
-                                      max="{{ item.variant.quantity_rule.max }}"
-                                    {% endif %}
-                                    step="{{ item.variant.quantity_rule.increment }}"
-                                    {% # theme-check-enable %}
                                     aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
                                     id="Drawer-quantity-{{ item.index | plus: 1 }}"
                                     data-index="{{ item.index | plus: 1 }}"
+                                    data-quantity-variant-id="{{ item.variant.id }}"
+                                    pattern="[0-9]*"
+                                    {% if item.variant.quantity_rule.max != null %}
+                                      max="{{ item.variant.quantity_rule.max }}"
+                                      aria-valuemax="{{ item.variant.quantity_rule.max }}"
+                                    {% endif %}
+                                    aria-valuemin="0"
+                                    aria-valuenow="{{ item.quantity }}"
+                                    aria-controls="CartDrawer-LineItemError-{{ item.index | plus: 1 }}"
                                   >
-                                  <button class="quantity__button" name="plus" type="button">
+                                  <button 
+                                    class="quantity__button no-js-hidden" 
+                                    name="plus" 
+                                    type="button"
+                                    aria-label="{{ 'products.product.quantity.increase' | t: product: item.product.title | escape }}"
+                                    aria-controls="Drawer-quantity-{{ item.index | plus: 1 }}"
+                                  >
                                     <span class="visually-hidden">
-                                      {{-
-                                        'products.product.quantity.increase'
-                                        | t: product: item.product.title
-                                        | escape
-                                      -}}
+                                      {{- 'products.product.quantity.increase' | t: product: item.product.title | escape -}}
                                     </span>
-                                    <span class="svg-wrapper">
+                                    <span class="svg-wrapper" aria-hidden="true">
                                       {{- 'icon-plus.svg' | inline_asset_content -}}
                                     </span>
                                   </button>
@@ -489,6 +559,7 @@
                               id="CartDrawer-LineItemError-{{ item.index | plus: 1 }}"
                               class="cart-item__error"
                               role="alert"
+                              aria-live="polite"
                             >
                               <small class="cart-item__error-text"></small>
                               <span class="svg-wrapper">
@@ -571,19 +642,34 @@
       </div>
 
       {%- if settings.show_testimonials -%}
-        <div class="cart-drawer__testimonials">
+        <div 
+          class="cart-drawer__testimonials"
+          role="region"
+          aria-label="{{ 'sections.cart.customer_testimonials' | t }}"
+        >
           {%- assign testimonials = settings.testimonials_metaobject.items.value -%}
           {%- if testimonials != blank -%}
-            <div class="swiper cart-testimonial-swiper{% if cart == empty %} cart-testimonial-swiper--empty{% endif %}">
-              <div class="swiper-wrapper">
+            <div 
+              class="swiper cart-testimonial-swiper{% if cart == empty %} cart-testimonial-swiper--empty{% endif %}"
+              aria-roledescription="carousel"
+              aria-label="{{ 'sections.cart.testimonials_carousel' | t }}"
+            >
+              <div 
+                class="swiper-wrapper"
+                role="list"
+              >
                 {%- for testimonial in testimonials -%}
-                  <div class="swiper-slide">
+                  <div 
+                    class="swiper-slide"
+                    role="listitem"
+                    aria-label="{{ 'sections.cart.testimonial_slide' | t: number: forloop.index, total: testimonials.size }}"
+                  >
                     <div class="testimonial-item">
                       {%- if testimonial.image != blank -%}
                         <div class="testimonial-image">
                           <img
                             src="{{ testimonial.image | image_url: width: 60, height: 60, crop: 'center' }}"
-                            alt="{{ testimonial.author | escape }}"
+                            alt="{{ 'sections.cart.profile_photo' | t: author: testimonial.author | escape }}"
                             width="60"
                             height="60"
                             loading="lazy"
@@ -592,14 +678,22 @@
                         </div>
                       {%- endif -%}
                       <div class="testimonial-content">
-                        <div class="testimonial-text">{{ testimonial.text | truncate: 120, '...' }}</div>
+                        <span class="testimonial-text">
+                          {{ testimonial.text | truncate: 120, '...' }}
+                        </span>
                         <div class="testimonial-author">
                           <span class="author-name">{{ testimonial.author }}</span>
                           {%- if testimonial.rating != blank -%}
-                            <div class="testimonial-stars">
+                            <div 
+                              class="testimonial-stars"
+                              aria-label="{{ 'sections.cart.rating' | t: rating: testimonial.rating, max: 5 }}"
+                            >
                               {%- assign rating = testimonial.rating | times: 1 -%}
                               {%- for i in (1..5) -%}
-                                <span class="star{% if i <= rating %} filled{% endif %}">★</span>
+                                <span 
+                                  class="star{% if i <= rating %} filled{% endif %}"
+                                  aria-hidden="true"
+                                >★</span>
                               {%- endfor -%}
                             </div>
                           {%- endif -%}

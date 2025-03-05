@@ -119,6 +119,7 @@
       "sku": "SKU",
       "on_sale": "Sale",
       "product_variants": "Product variants",
+      "add_to_cart_with_title": "Add to cart {{ title }}",
       "media": {
         "gallery_viewer": "Gallery Viewer",
         "load_image": "Load image {{ index }} in gallery view",
@@ -313,7 +314,14 @@
       "login": {
         "title": "Have an account?",
         "paragraph_html": "<a href=\"{{ link }}\" class=\"link underlined-link\">Log in</a> to check out faster."
-      }
+      },
+      "cart_items": "Cart Items",
+      "customer_testimonials": "Customer Testimonials",
+      "testimonials_carousel": "Customer testimonial carousel",
+      "testimonial_slide": "Testimonial slide {{ number }} of {{ total }}",
+      "profile_photo": "Profile photo of {{ author }}",
+      "rating": "Rating: {{ rating }} out of {{ max }} stars",
+      "recommendations_list": "Product recommendations list"
     },
     "footer": {
       "payment": "Payment methods"
