@@ -118,7 +118,7 @@
     "currency_code_enabled": true,
     "cart_type": "drawer",
     "show_vendor": false,
-    "show_testimonials": false,
+    "show_testimonials": true,
     "testimonials_metaobject": "testimonials",
     "show_cart_note": false,
     "cart_drawer_collection": "",
